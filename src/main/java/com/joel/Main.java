@@ -10,7 +10,7 @@ public class Main {
         int op;
         do{
             GestionVehiculos.mostrarMenu();
-            op=sc.nextInt();sc.nextLine();
+            op=Integer.parseInt(sc.nextLine());
             if(op==1){
                 System.out.println("Registrar auto");
                 System.out.println("Placa: ");
@@ -43,7 +43,7 @@ public class Main {
                 System.out.println("Tarifa diaria base: ");
                 double tarifaInicial = sc.nextDouble();
                 System.out.println("Capacidad de carga (t): ");
-                double capacidadCarga = sc.nextDouble();sc.nextLine();
+                double capacidadCarga = Double.parseDouble(sc.nextLine());
                 g.registrarCamioneta(placa,marca,modelo,tarifaInicial,capacidadCarga);
             }else if(op==3){
                 System.out.println("Mostrar vehiculos");
@@ -54,12 +54,13 @@ public class Main {
                 System.out.println("Placa: ");
                 String placa = sc.nextLine();
                 System.out.println("Dias: ");
-                int dias = sc.nextInt();sc.nextLine();
+                String diasString = sc.nextLine();
+                int dias=Integer.parseInt(diasString);
                 System.out.println("¿Aplica descuento? (s/n): ");
                 String descuento= sc.nextLine();
                 if (descuento.equalsIgnoreCase("s")){
                     System.out.println("Porcentaje de descuento: ");
-                    des=sc.nextDouble();
+                    des=Double.parseDouble(sc.nextLine());
                     aplica = true;
                     g.cotizarAlquiler(placa,dias,aplica,des);
                 }else{

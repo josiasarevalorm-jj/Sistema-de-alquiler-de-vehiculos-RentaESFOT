@@ -13,29 +13,34 @@ public class GestionVehiculos {
                 "\n4.Cotizar alquiler\n5.Mostrar estadísticas\n6.Salir\nEscoja una opcion: ");
     }
     public void registrarAuto(String placa,String marca,String modelo,double tarifaInicial,int numPuertas,boolean aireAcondicionado){
-        Vehiculo auto=new Auto(placa,marca,modelo,tarifaInicial,aireAcondicionado,numPuertas);
-        for(Vehiculo v:vehiculos){
-            if(vehiculos.contains(v.getPlaca())){
-                System.out.println("Error: esta placa ya existe");
-                return;
-            }
+        if(tarifaInicial<0){
+            System.out.println("Error: tarifa negativa.");
+            return;
         }
-        auto.calcularTarifaDiaria();
-        vehiculos.add(auto);
-        System.out.println("Auto registrado.");
+        if(!placas.add(placa.toUpperCase())){
+                System.out.println("Error: esta placa ya existe");
+            }else{
+                Vehiculo auto=new Auto(placa.toUpperCase(),marca,modelo,tarifaInicial,aireAcondicionado,numPuertas);
+                vehiculos.add(auto);
+                System.out.println("Auto registrado.");
+            }
     }
     public void registrarCamioneta(String placa,String marca,String modelo,double tarifaInicial,double capacidadCarga){
-        Vehiculo camioneta=new Camioneta(placa,marca,modelo,tarifaInicial,capacidadCarga);
+        if(tarifaInicial<0){
+            System.out.println("Error: tarifa negativa.");
+            return;
+        }
         for(Vehiculo v:vehiculos){
-            if(vehiculos.contains(v.getPlaca())){
+            if(placas.add(placa.toUpperCase())){
                 System.out.println("Error: esta placa ya existe");
-                return;
+            }else{
+                Vehiculo camioneta=new Camioneta(placa.toUpperCase(),marca,modelo,tarifaInicial,capacidadCarga);
+                vehiculos.add(camioneta);
+                System.out.println("Camioneta registrado.");
+                break;
             }
         }
-        camioneta.calcularTarifaDiaria();
-        vehiculos.add(camioneta);
 
-        System.out.println("Camioneta registrado.");
     }
     public void mostrarVehiculos(){
         if(vehiculos.isEmpty()){
@@ -55,9 +60,11 @@ public class GestionVehiculos {
             Vehiculo encontrado = buscarPlaca(placa);
             if (encontrado == null) {
                 System.out.println("Placa no encontrado");
+                return;
             }
             if (dias<=0){
                 System.out.println("Numero de dias invalido");
+                return;
             }
             if(aplicaDescuento){
                 if (porcentajeDescuento<=50 && porcentajeDescuento>=0){
@@ -73,26 +80,28 @@ public class GestionVehiculos {
 
     }
     public void mostrarEstadisticas(){
+        if(vehiculos.isEmpty()){
+            System.out.println("Lista vacia");
+            return;
+        }
         double tarifaAlta=0.0;
         String marcaAlta=null;
         String modeloAlta=null;
         int totalTarifas=0;
         double sumaTarifas=0.0;
         for(Vehiculo v: vehiculos){
-
-            if(v.getTarifaDiaria()>tarifaAlta){
-                tarifaAlta=v.getTarifaDiaria();
-                totalTarifas++;
-                totalTarifas+=v.getTarifaDiaria();
+            double tarifaReal= v.calcularTarifaDiaria();
+            if(tarifaReal>tarifaAlta) {
+                tarifaAlta = tarifaReal;
+                marcaAlta = v.getMarca();
+                modeloAlta = v.getModelo();
             }
-            if(v.getTarifaDiaria()==tarifaAlta){
-                marcaAlta=v.getMarca();
-                modeloAlta=v.getModelo();
-            }
+            sumaTarifas+=tarifaReal;
+            totalTarifas++;
         }
         double promedio=sumaTarifas/totalTarifas;
-        System.out.println("Vehiculo con mayor tarifa diaria: "+marcaAlta+" "+modeloAlta+": ($"+tarifaAlta+")");
-        System.out.println("Promedio de tarifas diarias: $"+promedio);
+        System.out.println("Vehiculo con mayor tarifa diaria: "+marcaAlta+" "+modeloAlta+" ($"+String.format("%.2f",tarifaAlta)+")");
+        System.out.println("Promedio de tarifas diarias: $"+String.format("%.2f",promedio));
     }
 
     public Vehiculo buscarPlaca(String placa) {

@@ -31,6 +31,6 @@ public class Camioneta extends Vehiculo{
 
     @Override
     public String toString() {
-        return "[CAMIONETA]\n"+super.toString()+"Capacidad de carga: "+capacidadCarga;
+        return "[CAMIONETA]\n"+super.toString()+"\nCapacidad de carga: "+capacidadCarga;
     }
 }
