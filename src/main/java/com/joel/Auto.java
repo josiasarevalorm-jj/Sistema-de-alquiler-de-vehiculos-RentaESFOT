@@ -34,7 +34,6 @@ public class Auto extends Vehiculo {
     @Override
     public double calcularTarifaDiaria() {
         if(aireAcondicionado){
-            System.out.println("Tarifa de 10$ extra por tener aire acondicionado.");
             return super.calcularTarifaDiaria()+10;
         }else {
             return super.calcularTarifaDiaria();

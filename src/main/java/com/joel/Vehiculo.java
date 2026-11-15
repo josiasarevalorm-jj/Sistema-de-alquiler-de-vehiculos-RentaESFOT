@@ -5,6 +5,7 @@ public class Vehiculo {
     private String marca;
     private String modelo;
     private double tarifaInicial;
+    private double tarifaDiaria;
 
     public Vehiculo(String placa, String marca, String modelo, double tarifaInicial) {
         setPlaca(placa);
@@ -13,12 +14,20 @@ public class Vehiculo {
         setTarifaInicial(tarifaInicial);
     }
 
+    public double getTarifaDiaria() {
+        return tarifaDiaria;
+    }
+
+    public void setTarifaDiaria(double tarifaDiaria) {
+        this.tarifaDiaria = tarifaDiaria;
+    }
+
     public String getPlaca() {
         return placa;
     }
 
     public void setPlaca(String placa) {
-        if (placa == null && !placa.isBlank()) {
+        if (placa != null && !placa.isBlank()) {
             this.placa = placa;
         }else{
             System.out.println("Error: Campo vacio.");
@@ -31,7 +40,7 @@ public class Vehiculo {
     }
 
     public void setMarca(String marca) {
-        if (marca == null && !marca.isBlank()) {
+        if (marca != null && !marca.isBlank()) {
             this.marca = marca;
         }else {
             System.out.println("Error: Campo vacio.");
@@ -44,7 +53,7 @@ public class Vehiculo {
     }
 
     public void setModelo(String modelo) {
-        if (modelo == null && !modelo.isBlank()) {
+        if (modelo != null && !modelo.isBlank()) {
             this.modelo = modelo;
         }else {
             System.out.println("Error: Campo vacio.");
@@ -70,24 +79,28 @@ public class Vehiculo {
     }
     public double calcularAlquiler(int dias){
         if(dias > 0){
-            return calcularTarifaDiaria()*dias;
+            this.tarifaDiaria=calcularTarifaDiaria()*dias;
+            return tarifaDiaria;
         }else {
             System.out.println("Error: Dias invalidos.");
-            return calcularTarifaDiaria();
+            this.tarifaDiaria = calcularTarifaDiaria();
+            return tarifaDiaria;
         }
 
     }
     public double calcularAlquiler(int dias, double porcentajeDescuento){
         if(dias>0 && porcentajeDescuento>=0 && porcentajeDescuento<=50){
-            return calcularAlquiler(dias)*(1-porcentajeDescuento/100);
+            this.tarifaDiaria = calcularAlquiler(dias)*(1-porcentajeDescuento/100);
+            return tarifaDiaria;
         }else{
             System.out.println("Error: Porcentaje de descuento negativa o dias invalidos.");
-            return calcularAlquiler(dias);
+            this.tarifaDiaria = calcularAlquiler(dias);
+            return tarifaDiaria;
         }
     }
     @Override
     public String toString() {
-        return "Vehiculo \nPlaca: "+placa+"\nMarca: "+marca+
+        return "\nPlaca: "+placa+"\nMarca: "+marca+
                 "\nModelo: "+modelo+"\nTarifa: "+String.format("%.2f", calcularTarifaDiaria());
 
     }

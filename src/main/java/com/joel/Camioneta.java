@@ -23,7 +23,6 @@ public class Camioneta extends Vehiculo{
     @Override
     public double calcularTarifaDiaria() {
         if (this.capacidadCarga >= 1.5){
-            System.out.println("Tarifa de 15% extra por pesar mas de 1.5 toneladas.");
             return super.calcularTarifaDiaria()+(super.calcularTarifaDiaria()*0.15);
         }else{
             return super.calcularTarifaDiaria();
@@ -32,6 +31,6 @@ public class Camioneta extends Vehiculo{
 
     @Override
     public String toString() {
-        return "[CAMIONETA]"+super.toString()+"Capacidad de carga: "+capacidadCarga;
+        return "[CAMIONETA]\n"+super.toString()+"Capacidad de carga: "+capacidadCarga;
     }
 }
